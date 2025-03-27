@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="" content="">
+    <title>Heart</title>
+    <style>
+        audio { 
+            display: none;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 92vh;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .heart {
+            height: 100px;
+            width: 100px;
+            background: red;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px red;
+            animation: heart 0.6s linear infinite;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        @keyframes heart {
+            0% {
+                transform: rotate(-45deg) scale(1.00);
+            }
+            80% {
+                transform: rotate(-45deg) scale(0.90);
+            }
+            100% {
+                transform: rotate(-45deg) scale(0.80);
+            }
+        }
+
+        .heart::before {
+            content: "";
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            background: red;
+            top: -55%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px red;
+        }
+
+        .heart::after {
+            content: "";
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            background: red;
+            right: -55%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px red;
+        }
+
+        .message {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio-3" loop>
+        <source src="audio.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+    
+    <div class="heart" id="heart"></div>
+    <div class="message" id="message"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audio = document.getElementById("audio-3");
+            const heart = document.getElementById("heart");
+            const message = document.getElementById("message");
+            
+            // Daftar pesan yang bisa ditampilkan
+            const messages = [
+                "Kamu Seperti Hiu Yang Lucu!!",
+                "Kamu Sangat Special ",
+                "Kamu Adalah Perempuan Pintar",
+                "Kamu Adalah Perempuan Baik",
+                "Cat Lover!!",
+                "Kamu Indah Seperti Langit",
+                "Kamu Adalah Perempuan Kuat",
+                "Kamu Pecinta Matcha",
+            ];
+            
+            // Fungsi untuk memainkan audio
+            function playAudio() {
+                audio.play().catch(e => {
+                    console.log("Autoplay diblokir:", e);
+                });
+            }
+            
+            // Event click pada heart
+            heart.addEventListener('click', function() {
+                // Mainkan audio
+                playAudio();
+                
+                // Tampilkan pesan acak
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                message.textContent = randomMessage;
+                message.style.display = "block";
+                
+                // Animasi tambahan saat diklik
+                heart.style.transform = "rotate(-45deg) scale(1.2)";
+                setTimeout(() => {
+                    heart.style.transform = "rotate(-45deg) scale(1)";
+                }, 300);
+            });
+            
+            // Coba mainkan audio otomatis (mungkin diblokir browser)
+            playAudio();
+        });
+    </script>
+</body>
+</html>
